@@ -19,16 +19,13 @@
 2. Распаковать в `<папка игры>\Interface\AddOns\` так, чтобы получилось
    `Interface\AddOns\QuestieCircle-DailyWeekly\QuestieCircle-DailyWeekly.toc`
 3. **Полностью перезапустить игру** — новую папку аддона `/reload` не подхватит.
-4. Включить `Questie + WoW Circle quests` в списке аддонов на экране входа.
+4. Включить `Questie + WoW Circle: daily & weekly` в списке аддонов
+   на экране входа.
 
 При первом входе Questie пересоберёт свою базу — в чате будет сообщение и
 несколько секунд подтормаживания. Это нормально и разово.
 
 Проверить, что всё встало: `/circle` в игре.
-
-Кнопка `Code` → `Download ZIP` тоже подходит: репозиторий называется
-`QuestieCircle`, ветка — `DailyWeekly`, поэтому GitHub назовёт папку
-`QuestieCircle-DailyWeekly`, то есть ровно так, как нужно.
 
 ### Обновление
 
