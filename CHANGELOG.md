@@ -1,4 +1,4 @@
-# QuestieCircleQuests — changelog
+# QuestieCircle-DailyWeekly — changelog
 
 Дополнение к Questie-335 для кастомных заданий WoW Circle.
 Файлы Questie не редактируются: всё идёт через `QuestieCompat.RegisterCorrection`

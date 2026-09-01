@@ -1,0 +1,10 @@
+## Interface: 30300
+## Title: Questie |cff00ff00+|r WoW Circle: daily & weekly
+## Notes: Ezhednevnye i ezhenedelnye zadaniya WoW Circle v trekere Questie
+## Author: sanyozeko
+## Version: 1.0.1
+## OptionalDeps: Questie-335, Questie, Questie-WOTLKC
+## SavedVariables: QuestieCircleQuestsDB
+
+QuestieCircle-DailyWeekly.lua
+Tracker.lua

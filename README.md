@@ -1,4 +1,4 @@
-# QuestieCircleQuests
+# QuestieCircle-DailyWeekly
 
 Дополнение к Questie-335 для ежедневных и еженедельных заданий WoW Circle.
 Файлы Questie не редактируются.
@@ -14,10 +14,10 @@
 форках может не завестись.
 
 1. Скачать архив со страницы
-   [Releases](https://github.com/sanyozeko/QuestieCircleQuests/releases/latest)
+   [Releases](https://github.com/sanyozeko/QuestieCircle/releases/latest)
    — папка внутри уже названа правильно, переименовывать ничего не нужно.
 2. Распаковать в `<папка игры>\Interface\AddOns\` так, чтобы получилось
-   `Interface\AddOns\QuestieCircleQuests\QuestieCircleQuests.toc`
+   `Interface\AddOns\QuestieCircle-DailyWeekly\QuestieCircle-DailyWeekly.toc`
 3. **Полностью перезапустить игру** — новую папку аддона `/reload` не подхватит.
 4. Включить `Questie + WoW Circle quests` в списке аддонов на экране входа.
 
@@ -26,8 +26,9 @@
 
 Проверить, что всё встало: `/circle` в игре.
 
-Кнопка `Code` → `Download ZIP` тоже работает, но GitHub назовёт папку
-`QuestieCircleQuests-main`, и её придётся переименовать вручную.
+Кнопка `Code` → `Download ZIP` тоже подходит: репозиторий называется
+`QuestieCircle`, ветка — `DailyWeekly`, поэтому GitHub назовёт папку
+`QuestieCircle-DailyWeekly`, то есть ровно так, как нужно.
 
 ### Обновление
 
@@ -64,7 +65,7 @@
 
 ## Настройка
 
-Список заданий — таблица `QUESTS` вверху `QuestieCircleQuests.lua`.
+Список заданий — таблица `QUESTS` вверху `QuestieCircle-DailyWeekly.lua`.
 День недельного сброса — `WEEKLY_RESET_WDAY` вверху `Tracker.lua` (сейчас среда).
 
 ## Ограничения
