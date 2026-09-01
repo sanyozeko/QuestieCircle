@@ -703,6 +703,27 @@ SlashCmdList["CIRCLEQUESTS"] = function(msg)
         return
     end
 
+    -- Ручная отметка. Нужна, когда поймать сдачу было нечем: игра упала сразу
+    -- после неё, или задание сдали ещё до установки аддона. Сервер про
+    -- ежедневные молчит, так что восстановить это автоматически нельзя.
+    local action, kind = arg:match("^(%a+)%s+(%a+)$")
+    if (action == "done" or action == "undone") and (kind == "daily" or kind == "weekly") then
+        local label = (kind == "daily") and "Ежедневное" or "Еженедельное"
+        if action == "done" then
+            AccountDone()[kind] = {
+                expires = ResetFor(kind),
+                by      = UnitName("player"),
+                srv     = false,
+            }
+            say(label .. ": отмечено выполненным до сброса")
+        else
+            AccountDone()[kind] = nil
+            say(label .. ": отметка снята")
+        end
+        RefreshTracker()
+        return
+    end
+
     if arg == "take" then
         for _, kind in ipairs({ "daily", "weekly" }) do
             if KindState(kind) == "available" then
@@ -764,4 +785,5 @@ SlashCmdList["CIRCLEQUESTS"] = function(msg)
         date("%d.%m %H:%M", NextDailyReset()),
         date("%d.%m %H:%M", NextWeeklyReset())))
     say("команды: |cff00ff00/circle take|r, |cff00ff00/circle daily|r, |cff00ff00/circle weekly|r")
+    say("вручную: |cff00ff00/circle done daily|r, |cff00ff00/circle undone weekly|r и т.п.")
 end
