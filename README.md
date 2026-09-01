@@ -13,12 +13,11 @@
 в основном Questie нет, — и на обёртки вокруг функций трекера. На других
 форках может не завестись.
 
-1. Скачать: `Code` → `Download ZIP`, либо
-   `git clone https://github.com/sanyozeko/QuestieCircleQuests.git`
-2. Положить папку в `<папка игры>\Interface\AddOns\` так, чтобы получилось
+1. Скачать архив со страницы
+   [Releases](https://github.com/sanyozeko/QuestieCircleQuests/releases/latest)
+   — папка внутри уже названа правильно, переименовывать ничего не нужно.
+2. Распаковать в `<папка игры>\Interface\AddOns\` так, чтобы получилось
    `Interface\AddOns\QuestieCircleQuests\QuestieCircleQuests.toc`
-   (если распаковывали ZIP — переименуйте `QuestieCircleQuests-main` в
-   `QuestieCircleQuests`).
 3. **Полностью перезапустить игру** — новую папку аддона `/reload` не подхватит.
 4. Включить `Questie + WoW Circle quests` в списке аддонов на экране входа.
 
@@ -26,6 +25,9 @@
 несколько секунд подтормаживания. Это нормально и разово.
 
 Проверить, что всё встало: `/circle` в игре.
+
+Кнопка `Code` → `Download ZIP` тоже работает, но GitHub назовёт папку
+`QuestieCircleQuests-main`, и её придётся переименовать вручную.
 
 ### Обновление
 
