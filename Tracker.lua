@@ -504,6 +504,39 @@ local function RefreshTracker()
     end
 end
 
+-- ------------------------------------------------------ сдача без сервера --
+-- Ядра TrinityCore не кладут ежедневные задания в список награждённых квестов
+-- (еженедельные - кладут). Значит для дейликов GetQuestsCompleted молчит всегда,
+-- и опираться только на него нельзя. Ловим момент, когда игрок реально забирает
+-- награду: GetQuestReward - единственный надёжный сигнал сдачи на 3.3.5a.
+local pendingTurnIn = nil
+
+local function NoteTurnIn(questTitle)
+    if not questTitle or not IsEnabled() then return end
+
+    local title = Norm(questTitle)
+    for id, quest in pairs(Quests()) do
+        if quest.name and Norm(quest.name) == title then
+            local me = UnitName("player")
+            AccountDone()[quest.kind] = {
+                expires = ResetFor(quest.kind),
+                by      = me,
+                questId = id,
+                srv     = false,        -- замечено нами, сервер может молчать
+            }
+            RefreshTracker()
+            return
+        end
+    end
+end
+
+hooksecurefunc("GetQuestReward", function()
+    if pendingTurnIn then
+        NoteTurnIn(pendingTurnIn)
+        pendingTurnIn = nil
+    end
+end)
+
 -- ------------------------------------------------------ галочка в Questie --
 -- Questie собирает вкладку Tracker через QuestieOptions.tabs.tracker:Initialize()
 -- и отдаёт таблицу опций. Оборачиваем её и дописываем свой пункт - файлы Questie
@@ -566,6 +599,7 @@ ev:RegisterEvent("QUEST_QUERY_COMPLETE")
 ev:RegisterEvent("QUEST_LOG_UPDATE")
 ev:RegisterEvent("QUEST_FINISHED")
 ev:RegisterEvent("GOSSIP_SHOW")
+ev:RegisterEvent("QUEST_COMPLETE")
 
 ev:SetScript("OnEvent", function(_, event)
     if event == "GOSSIP_SHOW" then
@@ -608,15 +642,22 @@ ev:SetScript("OnEvent", function(_, event)
                     expires  = ResetFor(kind),
                     by       = me,
                     questId  = finishedId,
+                    srv      = true,        -- подтверждено сервером
                 }
-            elseif record and record.by == me then
-                -- Сервер по этому же персонажу говорит "не выполнено" - сброс прошёл.
+            elseif record and record.srv and record.by == me then
+                -- Сервер по тому же персонажу, что и ставил отметку, говорит
+                -- "не выполнено" - значит сброс прошёл. Отметки, поставленные
+                -- по факту сдачи вручную, так снимать нельзя: сервер про них
+                -- вообще молчит, и мы бы стирали их сразу же.
                 done[kind] = nil
                 changed = true
             end
         end
 
         if changed then RefreshTracker() end
+
+    elseif event == "QUEST_COMPLETE" then
+        pendingTurnIn = GetTitleText and GetTitleText() or nil
 
     elseif event == "QUEST_FINISHED" then
         queryDelay = 3
@@ -692,8 +733,10 @@ SlashCmdList["CIRCLEQUESTS"] = function(msg)
         if record and record.expires and record.expires > time() then
             local left = (record.expires or 0) - time()
             local hours = math.floor(left / 3600)
-            say(("   отметка аккаунта: сдал %s, сброс через %dч %02dм"):format(
-                tostring(record.by), hours, math.floor((left % 3600) / 60)))
+            say(("   отметка аккаунта: сдал %s (%s), сброс через %dч %02dм"):format(
+                tostring(record.by),
+                record.srv and "подтверждено сервером" or "замечено при сдаче",
+                hours, math.floor((left % 3600) / 60)))
         end
 
         for _, held in ipairs(OthersHolding(kind)) do
