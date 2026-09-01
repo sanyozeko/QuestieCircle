@@ -5,8 +5,13 @@
 
 ## Установка
 
-Нужен установленный [Questie для 3.3.5a](https://github.com/Aldori15/Questie/tree/335)
+Нужен установленный [Questie-335](https://github.com/divial28/Questie-335)
 — это дополнение к нему, само по себе оно не работает.
+
+Аддон писался и проверялся против этого форка (v9.5.1). Он опирается на
+`QuestieCompat.RegisterCorrection` — публичный реестр правок базы, которого
+в основном Questie нет, — и на обёртки вокруг функций трекера. На других
+форках может не завестись.
 
 1. Скачать: `Code` → `Download ZIP`, либо
    `git clone https://github.com/sanyozeko/QuestieCircleQuests.git`
